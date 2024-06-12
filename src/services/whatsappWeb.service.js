@@ -25,7 +25,8 @@ async function initialize() {
     });
     
     client.on('qr', qr => {
-        qrcode.generate(qr, {small: true});
+        console.log('QR RECEIVED', qr);
+        // qrcode.generate(qr, {small: true});
     });
 
     client.on('message', async (msg) => {
@@ -43,7 +44,6 @@ async function initialize() {
     
     client.initialize();
 };
-
 
 module.exports = {  
     initialize,
