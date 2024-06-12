@@ -6,6 +6,7 @@ const whatsappController = require('../controllers/whatsapp.controller');
 
 router
 .get('/', whatsappController.verifyToken)
-.post('/', whatsappController.ReceiveMessage);
+.post('/', whatsappController.ReceiveMessage)
+.post('/sendMessageWeb', whatsappController.sendMessageWeb);
 
 module.exports = router;

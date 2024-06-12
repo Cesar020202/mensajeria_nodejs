@@ -1,7 +1,9 @@
 const fs = require('fs');   
 const myConsole = new console.Console(fs.createWriteStream('./logswpp.txt'));
 const whatsappService = require('../services/whatsapp.service');
+const whatsappWebService = require('../services/whatsappWeb.service');
 const processMessageService = require('../shared/process.message');
+const { type } = require('express/lib/response');
 
 const verifyToken = (req , res) => {
 
@@ -22,7 +24,7 @@ const verifyToken = (req , res) => {
 
 };
 
-const  ReceiveMessage = (req , res) => {
+const ReceiveMessage = (req , res) => {
     try {
         // console.log(req);
         var entry = req.body['entry'][0];
@@ -76,7 +78,37 @@ const  ReceiveMessage = (req , res) => {
     // res.send('hola recive')
 };
 
+const sendMessageWeb = async (req , res) => {
+    const data = {
+        mensajes : [],
+        tipo     : 3,
+        data     : null,
+    };
+
+    try {
+        const number = req.body.number;
+        const message = req.body.message;
+        const response = whatsappWebService.sendMessage(message, number);
+
+        if(typeof response === 'string'){
+            data.mensajes.push(response);
+        };
+
+        if(typeof response === 'object'){
+            data.mensajes.push('Mensaje enviado con exito.');
+            data.tipo = 1;
+            data.data = response;
+        };
+      
+        res.status(200).send(data);
+    } catch (e) {
+        res.status(200).send(data);
+    };
+    
+};
+
 module.exports = {
     verifyToken,
-    ReceiveMessage
+    ReceiveMessage,
+    sendMessageWeb
 };

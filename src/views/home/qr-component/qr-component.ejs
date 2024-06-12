@@ -7,6 +7,18 @@
 </head>
 <body>
   <h1>Código QR</h1>
-  <img src="<%= qrCodeUrl %>" alt="QR Code">
+  <!-- <div id="qrContainer"></div>
+  <script src="src/services/whatsappWeb.service.js"></script> -->
+  <!-- VALIDAMOS SI TENEMOS STATUS PENDING MOSTRAMOS QR -->
+  <% if (status === 'pending') { %>
+    <img src="<%= qrCodeUrl %>" alt="QR Code">
+  <% } %>
+  <!-- VALIDAMOS SI TENEMOS STATUS SUCCESS MOSTRAMOS MENSAJE DE EXITO Y MOSTRAMOS LA INFO -->
+  <% if (status === 'success') { %>
+    <h2>¡Sesión iniciada con éxito!</h2>
+    <p> Nombre : <%= info.pushname %></p>
+    <p> Numero : <%= info.wid.user %></p>
+    <!-- <p> Battery : <%= info.pushname %></p> -->
+  <% } %>
 </body>
 </html>
