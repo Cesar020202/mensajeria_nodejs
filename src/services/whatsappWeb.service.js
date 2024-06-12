@@ -21,11 +21,11 @@ async function initialize() {
     //     // await client.sendMessage('51955596636', 'Hola, soy un bot de prueba');
     // });
     
-    client.on('qr', qr => {
-        console.log('QR RECEIVED SERVICE', qr);
-        // renderQR(qr);
-        // qrcode.generate(qr, {small: true});
-    });
+    // client.on('qr', qr => {
+    //     console.log('QR RECEIVED SERVICE', qr);
+    //     // renderQR(qr);
+    //     // qrcode.generate(qr, {small: true});
+    // });
 
     // client.on('message', async (msg) => {
     //     const msgBody = msg.body;
