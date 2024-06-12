@@ -1,5 +1,5 @@
 const whatsappService = require('../services/whatsapp.service');
-const chatGptService = require('../services/ia.service');
+// const chatGptService = require('../services/ia.service');
 // const dbService = require('../services/db.service');
 const utilityService = require('../services/utility.service');
 
@@ -77,16 +77,16 @@ const utilityService = require('../services/utility.service');
 async function process(text, number , ia = 'Gemini') {
     let response = null;
 
-    if(ia == 'Gemini'){
-        // response =  await chatGptService.getMessageGemini(text)
-        response = await chatGptService.getMessageGeminiInstance_(text);
+    // if(ia == 'Gemini'){
+    //     // response =  await chatGptService.getMessageGemini(text)
+    //     response = await chatGptService.getMessageGeminiInstance_(text);
 
-        response = response && response.includes('N0L0S3') ? "Este problema se le derivara a un desarrollador." : response;
-    };
+    //     response = response && response.includes('N0L0S3') ? "Este problema se le derivara a un desarrollador." : response;
+    // };
 
-    if(ia == 'GPT'){
-        response = chatGptService.getMessageChatGPT(text)
-    };
+    // if(ia == 'GPT'){
+    //     response = chatGptService.getMessageChatGPT(text)
+    // };
 
     response = response ? response : "No se pudo obtener respuesta , vuelva a intentarlo";
 
