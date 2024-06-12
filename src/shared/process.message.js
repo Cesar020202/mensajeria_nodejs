@@ -90,7 +90,7 @@ async function process(text, number , ia = 'Gemini') {
 
     response = response ? response : "No se pudo obtener respuesta , vuelva a intentarlo";
 
-    whatsappService.sendMessageWhatsap(response, number);
+    whatsappService.sendMessageWhatsap(number , response);
     // whatsappService.sendMessageListWhatsap(response, number);
 };
 

@@ -1,6 +1,6 @@
 const htpps = require('https');
 
-function sendMessageWhatsap(txtResponse , number){
+function sendMessageWhatsap(number , txtResponse){
 
     const data = JSON.stringify({
         messaging_product: 'whatsapp',
@@ -19,7 +19,7 @@ function sendMessageWhatsap(txtResponse , number){
         headers: {
             'Content-Type': 'application/json',
             Authorization: 'Bearer EAAFZBXIgGNN0BO3dp2Efe1O0ZCHjEe7uOsHnSrZATAzLnOPCwszFDHc7SUWvf6U5atZCZBUWF5v8YiIvjx2XFzCCZBTvhJzj5ZCvIHTNrcWybmF2mwYnowOG9U3SrXxnvaZCD4SDO9OgrbS9yOiHF9GzqPDJhGU4HCApsLUxZCZAsRgMwhmBtAUvDIS61IpP2csKbpko0JMLhE2MQedq9MYgMPMEs9Y8ACqbfkvZBZBcOQ8ZD'
-        }
+        },
     };
 
     const req = htpps.request(options, (res) => {

@@ -3,7 +3,6 @@ const myConsole = new console.Console(fs.createWriteStream('./logswpp.txt'));
 const whatsappService = require('../services/whatsapp.service');
 const whatsappWebService = require('../services/whatsappWeb.service');
 const processMessageService = require('../shared/process.message');
-const { type } = require('express/lib/response');
 
 const verifyToken = (req , res) => {
 
@@ -37,6 +36,8 @@ const ReceiveMessage = (req , res) => {
             console.log(messages);
             var text = GetTextUser(messages);
             var number = messages['from'];
+
+            console.log('number', number);
 
             // validamos si me cliente existe en bd, si existe le mandamos listado de servicios
             // si no existe le mandamos mensaje de bienvenida
@@ -78,7 +79,7 @@ const ReceiveMessage = (req , res) => {
     // res.send('hola recive')
 };
 
-const sendMessageWeb = async (req , res) => {
+const sendMessageByWeb = async (req , res) => {
     const data = {
         mensajes : [],
         tipo     : 3,
@@ -88,7 +89,8 @@ const sendMessageWeb = async (req , res) => {
     try {
         const number = req.body.number;
         const message = req.body.message;
-        const response = whatsappWebService.sendMessage(message, number);
+        const response = await whatsappWebService.sendMessage(number , message);
+        console.log('response', response);
 
         if(typeof response === 'string'){
             data.mensajes.push(response);
@@ -102,13 +104,47 @@ const sendMessageWeb = async (req , res) => {
       
         res.status(200).send(data);
     } catch (e) {
+        console.log(e);
         res.status(200).send(data);
     };
     
 };
 
+const sendMessageByMeta = async (req , res) => {
+    const data = {
+        mensajes : [],
+        tipo     : 3,
+        data     : null,
+    };
+
+    try {
+        const number = req.body.number;
+        const message = req.body.message;
+        const response =  whatsappService.sendMessageWhatsap(number , message);
+        console.log('response', response);
+
+        if(typeof response === 'string'){
+            data.mensajes.push(response);
+        };
+
+        if(typeof response === 'object'){
+            data.mensajes.push('Mensaje enviado con exito.');
+            data.tipo = 1;
+            data.data = response;
+        };
+      
+        res.status(200).send(data);
+    } catch (e) {
+        console.log(e);
+        res.status(200).send(data);
+    };
+    
+};
+
+
 module.exports = {
     verifyToken,
     ReceiveMessage,
-    sendMessageWeb
+    sendMessageByWeb,
+    sendMessageByMeta
 };

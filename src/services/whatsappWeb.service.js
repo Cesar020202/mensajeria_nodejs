@@ -1,5 +1,6 @@
 const { Client , LocalAuth  } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const { set } = require('express/lib/response');
 
 const client = new Client({
     webVersionCache: {
@@ -27,27 +28,29 @@ async function initialize() {
     //     // qrcode.generate(qr, {small: true});
     // });
 
-    // client.on('message', async (msg) => {
-    //     const msgBody = msg.body;
-    //     const from = msg.from;
+    // Escuchamos mensajes
+    client.on('message', async (msg) => {
+        const msgBody = msg.body;
+        const from = msg.from;
 
-    //     console.log('from', from);
-    //     console.log('msg', msgBody);
-    //     // await client.sendMessage('51965819150@c.us', 'eres un botcito 3.99');
-    //     if (msg.body === '!send-media') {
-    //         const media = new MessageMedia('image/png', base64Image);
-    //         await client.sendMessage(msg.from, media);
-    //     };
-    // });
+        console.log('from', from);
+        console.log('msg', msgBody);
+        // await client.sendMessage('51965819150@c.us', 'eres un botcito 3.99');
+        // if (msg.body === '!send-media') {
+        //     const media = new MessageMedia('image/png', base64Image);
+        //     await client.sendMessage(msg.from, media);
+        // };
+    });
     
-    await client.initialize();
+    client.initialize();
 };
 
 async function sendMessage(number, message) {
-    if(client.info != null)
+    if(client.info == null)
     return 'Cliente no inicializado.'
 
-    return (await client.sendMessage(number, message));
+    const response = await client.sendMessage(number, message);
+    return response;
 };
 
 
