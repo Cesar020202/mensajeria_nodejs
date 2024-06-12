@@ -1,6 +1,10 @@
 // Path: src/index.js
 const express = require('express');
 const apiRouter = require('./routers/routes');
+const whatsappWebController = require('./services/whatsappWeb.service');
+
+// Initialize whatsapp web
+whatsappWebController.initialize();
 
 const app = express();
 // const PORT = process.env.PORT || 3000;
