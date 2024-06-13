@@ -26,22 +26,26 @@
           }
       } catch (error) {
         console.error('Error fetching QR status:', error);
-      }
-    }
+      };
+    };
 
     // window.onload = () => {
-      intervalId = setInterval(checkQRStatus, 5000); // Polling cada 5 segundos
+      intervalId = setInterval(checkQRStatus, 10000); // Polling cada 10 segundos
     // };
   </script>
 </head>
 <body onload="checkQRStatus()">
   <h1>Código QR</h1>
-  <div id="qrContainer" style="<%= clientReady ? 'display:none;' : 'display:block;' %>">
-    <% if (qrCodeUrl && !clientReady) { %>
+  <div id="qrContainer" >
+    <% if (qrCodeUrl && qrCodeUrl != ''  && !clientReady) { %>
       <img src="<%= qrCodeUrl %>" alt="QR Code">
     <% } %>
+
+    <% if (!qrCodeUrl && !clientReady) { %>
+      <span>Cargando...</span>
+    <% } %>
   </div>
-  <div id="infoContainer" style="<%= clientReady ? 'display:block;' : 'display:none;' %>">
+  <div id="infoContainer">
     <% if (clientReady) { %>
       <p>Status: ready</p>
       <p>Info: <%= JSON.stringify(clientInfo) %></p>
