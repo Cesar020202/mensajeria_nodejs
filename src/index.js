@@ -17,7 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 whatsappWebController.initialize();
 
 // Ruta para renderizar la vista
-app.get('/', async (req, res) => {
+app.get('/qr', async (req, res) => {
   try {
 
     console.log('vista /')
