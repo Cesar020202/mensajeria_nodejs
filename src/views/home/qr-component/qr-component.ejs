@@ -11,7 +11,7 @@
   <script src="src/services/whatsappWeb.service.js"></script> -->
   <!-- VALIDAMOS SI TENEMOS STATUS PENDING MOSTRAMOS QR -->
   <% if (status === 'pending') { %>
-    <img src="<%= qrCodeUrl %>" alt="QR Code">
+    <img src="<%= qr %>" alt="QR Code">
   <% } %>
   <!-- VALIDAMOS SI TENEMOS STATUS SUCCESS MOSTRAMOS MENSAJE DE EXITO Y MOSTRAMOS LA INFO -->
   <% if (status === 'success') { %>
