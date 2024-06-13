@@ -38,7 +38,7 @@ app.get('/qr', async (req, res) => {
     });
 
     whatsappWebController.client.on('ready',  async () => {
-      console.log('Client is ready!');
+      console.log('Client is ready!' , whatsappWebController.client.info);
       const info_ = whatsappWebController.client.info;
       res.render('home/qr-component/qr-component', { info : info_ , status: 'success'});
     });
