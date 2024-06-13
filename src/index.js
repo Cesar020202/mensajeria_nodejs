@@ -20,6 +20,7 @@ whatsappWebController.initialize();
 app.get('/', async (req, res) => {
   try {
 
+    console.log('vista /')
     // Tomo la referencia del client
     // const info = whatsappWebController.client.info;
     // console.log('Client info', info);
