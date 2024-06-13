@@ -14,18 +14,20 @@ const PORT = process.env.PORT || 4520;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+whatsappWebController.initialize();
+
 // Ruta para renderizar la vista
 app.get('/', async (req, res) => {
   try {
 
     // Tomo la referencia del client
-    const info = whatsappWebController.client.info;
-    console.log('Client info', info);
+    // const info = whatsappWebController.client.info;
+    // console.log('Client info', info);
 
-    // Initialize whatsapp web
-    if(!info){
-      whatsappWebController.initialize();
-    };  
+    // // Initialize whatsapp web
+    // if(!info){
+     
+    // };  
 
     whatsappWebController.client.on('qr', async ( qr) => {
       console.log('QR RECEIVED SERVICE', qr);
