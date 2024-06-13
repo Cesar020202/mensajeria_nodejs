@@ -7,8 +7,8 @@ const whatsappWebController = require('./services/whatsappWeb.service');
 
 
 const app = express();
-// const PORT = process.env.PORT || 4000;
-const PORT = process.env.PORT;
+// const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // Configuramos vistas para front
 app.set('view engine', 'ejs');
