@@ -4,21 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code</title>
+  <script>
+    let intervalId;
+
+    async function checkQRStatus() {
+      try {
+        const response = await fetch('/qr-status');
+        const data = await response.json();
+          const qrContainer = document.getElementById('qrContainer');
+          const infoContainer = document.getElementById('infoContainer');
+
+          if (data.clientReady) {
+            qrContainer.style.display = 'none';
+            infoContainer.style.display = 'block';
+            infoContainer.innerHTML = `<p>Status: ready</p><p>Info: ${JSON.stringify(data.clientInfo)}</p>`;
+            // clearInterval(intervalId); // Cancela el intervalo
+          } else {
+            qrContainer.style.display = 'block';
+            infoContainer.style.display = 'none';
+            qrContainer.innerHTML = `<img src="${data.qrCodeUrl}" alt="QR Code">`;
+          }
+      } catch (error) {
+        console.error('Error fetching QR status:', error);
+      }
+    }
+
+    // window.onload = () => {
+      intervalId = setInterval(checkQRStatus, 5000); // Polling cada 5 segundos
+    // };
+  </script>
 </head>
-<body>
+<body onload="checkQRStatus()">
   <h1>Código QR</h1>
-  <!-- <div id="qrContainer"></div>
-  <script src="src/services/whatsappWeb.service.js"></script> -->
-  <!-- VALIDAMOS SI TENEMOS STATUS PENDING MOSTRAMOS QR -->
-  <% if (status === 'pending') { %>
-    <img src="<%= qr %>" alt="QR Code">
-  <% } %>
-  <!-- VALIDAMOS SI TENEMOS STATUS SUCCESS MOSTRAMOS MENSAJE DE EXITO Y MOSTRAMOS LA INFO -->
-  <% if (status === 'success') { %>
-    <h2>¡Sesión iniciada con éxito!</h2>
-    <p> Nombre : <%= info.pushname %></p>
-    <p> Numero : <%= info.wid.user %></p>
-    <!-- <p> Battery : <%= info.pushname %></p> -->
-  <% } %>
+  <div id="qrContainer" style="<%= clientReady ? 'display:none;' : 'display:block;' %>">
+    <% if (qrCodeUrl && !clientReady) { %>
+      <img src="<%= qrCodeUrl %>" alt="QR Code">
+    <% } %>
+  </div>
+  <div id="infoContainer" style="<%= clientReady ? 'display:block;' : 'display:none;' %>">
+    <% if (clientReady) { %>
+      <p>Status: ready</p>
+      <p>Info: <%= JSON.stringify(clientInfo) %></p>
+    <% } %>
+  </div>
 </body>
 </html>
