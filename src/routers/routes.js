@@ -8,6 +8,8 @@ router
 .get('/', whatsappController.verifyToken)
 .post('/', whatsappController.ReceiveMessage)
 .post('/sendMessageWeb', whatsappController.sendMessageByWeb)
-.post('/sendMessageMeta', whatsappController.sendMessageByMeta);
+.post('/sendMessageMeta', whatsappController.sendMessageByMeta)
+.post('/sendMessageWbMt', whatsappController.sendMessageWbMt);
+
 
 module.exports = router;

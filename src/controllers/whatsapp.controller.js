@@ -3,6 +3,7 @@ const myConsole = new console.Console(fs.createWriteStream('./logswpp.txt'));
 const whatsappService = require('../services/whatsapp.service');
 const whatsappWebService = require('../services/whatsappWeb.service');
 const processMessageService = require('../shared/process.message');
+const { VERSION_WPP } = require('../utility/utility');
 
 const verifyToken = (req , res) => {
 
@@ -90,7 +91,6 @@ const sendMessageByWeb = async (req , res) => {
         const number = req.body.number;
         const message = req.body.message;
         const response = await whatsappWebService.sendMessage(number , message);
-        console.log('response', response);
 
         if(typeof response === 'string'){
             data.mensajes.push(response);
@@ -141,10 +141,73 @@ const sendMessageByMeta = async (req , res) => {
     
 };
 
+const sendMessageWbMt = async (req , res) => {
+    const data = {
+        mensajes : [],
+        tipo     : 3,
+        data     : null,
+    };
+
+    try {
+
+        if(!req.body.tipo || req.body.tipo == ''){
+            data.mensajes.push('El tipo de envio es requerido.');
+            res.status(200).send(data);
+        };
+
+        if(!req.body.number || req.body.number == ''){
+            data.mensajes.push('El numero es requerido.');
+            res.status(200).send(data);
+        };
+
+        if(!req.body.message || req.body.message == ''){
+            data.mensajes.push('El mensaje es requerido.');
+            res.status(200).send(data);
+        };
+
+        const tipo = req.body.tipo;
+        const number = req.body.number;
+        const message = req.body.message;
+        let response = null;
+
+        if(tipo == VERSION_WPP.WEB){
+            const response = await whatsappWebService.sendMessage(number , message);
+            if(typeof response === 'string'){
+                data.mensajes.push(response);
+            };
+
+            if(typeof response === 'object'){
+                data.mensajes.push('Mensaje enviado con exito.');
+                data.tipo = 1;
+                data.data = response;
+            };
+        };
+
+        if(tipo == VERSION_WPP.META){
+            response =  await whatsappService.sendMessageWhatsap(number , message);
+            if(response.status == 'error'){
+                data.mensajes.push(response.data);
+            };
+
+            if(response.status == 'success'){
+                data.mensajes.push('Mensaje enviado con exito.');
+                data.tipo = 1;
+                data.data = response;
+            };
+        };
+
+        res.status(200).send(data);
+    } catch (e) {
+        console.log(e);
+        data.mensajes.push(e);
+        res.status(200).send(data);
+    };
+};
 
 module.exports = {
     verifyToken,
     ReceiveMessage,
     sendMessageByWeb,
-    sendMessageByMeta
+    sendMessageByMeta,
+    sendMessageWbMt
 };

@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script>
+
     let intervalId;
 
     async function checkQRStatus() {
@@ -29,9 +32,59 @@
       };
     };
 
-    // window.onload = () => {
-      intervalId = setInterval(checkQRStatus, 10000); // Polling cada 10 segundos
-    // };
+    // Iniciar cliente
+    async function startClient() {
+      try {
+        const response = await fetch('/start-client');
+        const data = await response.json();
+        console.log('Client started:', data);
+        showToast('success', 'Cliente iniciado');
+      } catch (error) {
+        showToast('error', 'Error al iniciar cliente');
+        console.error('Error starting client:', error);
+      };
+    };
+
+    // Detener cliente
+    async function stopClient() {
+      try {
+        const response = await fetch('/stop-client');
+        const data = await response.json();
+        console.log('Client stopped:', data);
+        showToast('success', 'Cliente detenido');
+      } catch (error) {
+        showToast('error', 'Error al detener cliente');
+        console.error('Error stopping client:', error);
+      };
+    };
+
+    // Resetea cliente
+    async function resetClient() {
+      try {
+        const response = await fetch('/reset-client');
+        const data = await response.json();
+        console.log('Client reset:', data);
+        showToast('success', 'Cliente reseteado');
+      } catch (error) {
+        showToast('error', 'Error al resetear cliente');
+        console.error('Error resetting client:', error);
+      };
+    };
+
+    intervalId = setInterval(checkQRStatus, 10000); // Polling cada 10 segundos
+
+    // Toast
+    function showToast(tipo , mensaje) {
+      Toastify({
+        text: mensaje,
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: tipo === 'success' ? "green" : "red"
+      }).showToast();
+    };
+
   </script>
 </head>
 <body onload="checkQRStatus()">
@@ -51,5 +104,14 @@
       <p>Info: <%= JSON.stringify(clientInfo) %></p>
     <% } %>
   </div>
+
+ 
+  <button onclick="startClient()">Iniciar cliente</button>
+  <button onclick="stopClient()">Detener cliente</button>
+  <button onclick="resetClient()">Resetear cliente</button>
+  <!-- <% if (clientReady) { %> -->
+
+  <!-- <% } %>  -->
+  
 </body>
 </html>

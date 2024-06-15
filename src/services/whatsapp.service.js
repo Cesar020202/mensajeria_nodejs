@@ -1,6 +1,6 @@
 const htpps = require('https');
 
-function sendMessageWhatsap(number , txtResponse){
+async function sendMessageWhatsap(number , txtResponse){
 
     const data = JSON.stringify({
         messaging_product: 'whatsapp',
@@ -13,29 +13,59 @@ function sendMessageWhatsap(number , txtResponse){
 
     const options = {
         hostname: 'graph.facebook.com',
-        path: '/v18.0/318584924670058/messages',
+        path: '/v19.0/272960832574599/messages',
         method: 'POST',
         body: data,
         headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer EAAFZBXIgGNN0BO3dp2Efe1O0ZCHjEe7uOsHnSrZATAzLnOPCwszFDHc7SUWvf6U5atZCZBUWF5v8YiIvjx2XFzCCZBTvhJzj5ZCvIHTNrcWybmF2mwYnowOG9U3SrXxnvaZCD4SDO9OgrbS9yOiHF9GzqPDJhGU4HCApsLUxZCZAsRgMwhmBtAUvDIS61IpP2csKbpko0JMLhE2MQedq9MYgMPMEs9Y8ACqbfkvZBZBcOQ8ZD'
+            Authorization: 'Bearer EAAazBitWn84BOZCQWSbCZByojXNSlqIBydPPpmGvYKHoBnj6fy25nsRVS3DDRoAZBUAr5gZAWvni4dI4j2fgbNEXF0DHjAEfzEia2gIfq30Y4ZCHvasZA89vZCniZAS8vWmIkXIxtFzmygSaHvgJEXSR6jhlHqWEa47ZCc2dNrrw5DKZAZAC2uApYrqyL20pO2tN5wK'
         },
     };
 
-    const req = htpps.request(options, (res) => {
-        console.log(`statusCode: ${res.statusCode}`);
+    // const req = htpps.request(options, (res) => {
+    //     console.log(`statusCode: ${res.statusCode}`);
 
-        res.on('data', (d) => {
-            process.stdout.write(d);
-        }); 
+    //     res.on('data', (d) => {
+    //         process.stdout.write(d);
+    //     }); 
+    // });
+
+    // req.on('error', (error) => {
+    //     console.error(error);
+    //     return error;
+    // });
+
+    // req.write(data);
+    // req.end();
+
+    return new Promise((resolve) => {
+        const req = htpps.request(options, (res) => {
+            let responseData = '';
+
+            res.on('data', (chunk) => {
+                responseData += chunk;
+            });
+
+            res.on('end', () => {
+                console.log(`statusCode: ${res.statusCode}` , responseData);
+                if (res.statusCode >= 200 && res.statusCode < 300) {
+                    resolve({ status: 'success', data: responseData });
+                } else {
+                    resolve({ status: 'error', message: `Request failed with status code ${res.statusCode}`, data: responseData });
+                }
+            });
+        });
+
+        req.on('error', (error) => {
+            console.error(error);
+            resolve({ status: 'error', message: error.message });
+        });
+
+        req.write(data);
+        req.end();
     });
 
-    req.on('error', (error) => {
-        console.error(error);
-    });
 
-    req.write(data);
-    req.end();
 
 };
 

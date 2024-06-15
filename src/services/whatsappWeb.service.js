@@ -1,6 +1,5 @@
 const { Client , LocalAuth  } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const { set } = require('express/lib/response');
 
 const client = new Client({
     webVersionCache: {
@@ -46,10 +45,25 @@ async function initialize() {
 };
 
 async function sendMessage(number, message) {
+
     if(client.info == null)
     return 'Cliente no inicializado.'
 
-    const response = await client.sendMessage(number, message);
+    let number_ = number;
+
+    if(number && !number.includes('@')){
+        number_ += '@c.us';
+        // number_ = await client.getNumberId(number);
+        // if(number_){
+        //     number_ = number_._serialized;
+        // };
+    };
+
+    if(!number_){
+        return 'Numero no valido.';
+    };
+
+    const response = await client.sendMessage(number_, message);
     return response;
 };
 

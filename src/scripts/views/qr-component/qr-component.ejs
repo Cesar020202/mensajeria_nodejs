@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script type="module" src="/src/public/qr-component.js"></script>
+</head>
+<body>
+  <h1>Código QR</h1>
+  <div id="qrContainer" >
+    <% if (qrCodeUrl && qrCodeUrl != ''  && !clientReady) { %>
+      <img src="<%= qrCodeUrl %>" alt="QR Code">
+    <% } %>
+
+    <% if (!qrCodeUrl && !clientReady) { %>
+      <span>Cargando...</span>
+    <% } %>
+  </div>
+  <div id="infoContainer">
+    <% if (clientReady) { %>
+      <p>Status: ready</p>
+      <p>Info: <%= JSON.stringify(clientInfo) %></p>
+    <% } %>
+  </div>
+
+ 
+  <button id="boton_iniciar">Iniciar cliente</button>
+  <button id="boton_detener">Detener cliente</button>
+  <button id="boton_resetear">Resetear cliente</button>
+
+</body>
+</html>
