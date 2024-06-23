@@ -76,6 +76,7 @@ app.get('/reset-client', async (req, res) => {
 // Eventos de whatsapp web  
 whatsappWebController.client.on('qr', async (qr) => {
   // console.log('QR RECEIVED SERVICE', qr);
+  console.log('QR RECEIVED SERVICE');
   qrCodeUrl = await qrcode.toDataURL(qr);
   clientReady = false;
 });
@@ -87,9 +88,10 @@ whatsappWebController.client.on('ready', () => {
   clientReady = true;
 });
 
-whatsappWebController.client.on('disconnected', (reason) => {
-  // console.log('Client was logged out', reason);
-  // whatsappWebController.client.destroy();
+whatsappWebController.client.on('disconnected', async (reason) => {
+  console.log('Client was logged out', reason);
+  // await whatsappWebController.client.destroy();
+  whatsappWebController.client.info = null;
   clientReady = false;
   qrCodeUrl = null;
   clientInfo = whatsappWebController.client.info;

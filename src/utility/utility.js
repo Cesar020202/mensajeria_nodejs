@@ -4,7 +4,7 @@ const HTTP_RESPONSE = {
 };
 
 const VERSION_WPP =  {
-    WEB : 1,
+    WEB : 1,    
     META : 2
 };
 

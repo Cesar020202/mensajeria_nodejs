@@ -69,8 +69,6 @@ async function sendMessageWhatsap(number , txtResponse){
 
 };
 
-
-
 module.exports = {  
     sendMessageWhatsap,
     // sendMessageListWhatsap
