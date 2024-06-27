@@ -8,7 +8,7 @@ const { HTTP_RESPONSE } = require('./utility/utility');
 
 const app = express();
 // const PORT = process.env.PORT || 3000;
-const PORT = process.env.PORT || 5102;
+const PORT = process.env.PORT || 5100;
 
 // Configuramos vistas para front
 app.set('view engine', 'ejs');
